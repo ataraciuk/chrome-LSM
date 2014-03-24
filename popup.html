@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>LSM multiple matching</title>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+  </head>
+  <body>
+    <label>
+      Place your sample of text here
+      <textarea id="myText" placeholder="Your sample text">
+      </textarea>
+    </label>
+    <br/>
+    <label>
+      What is your age?
+      <input id="age" type="text" />
+    </label>
+    <button type="button">Submit</button>
+    <div id="errors"></div>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="popup.js"></script>
+  </body>
+</html>
