@@ -1,0 +1,20 @@
+.resultItem {
+	float: left;
+	margin: 0 3px;
+}
+.bar {
+	position: relative;
+	height: 200px;
+	width: 30px;
+	border:1px solid black;
+}
+.bar > div {
+	position: absolute;
+	bottom: 0px;
+	left:0px;
+	background-color: green;
+	width: 100%;
+}
+#results{
+	display: none;
+}

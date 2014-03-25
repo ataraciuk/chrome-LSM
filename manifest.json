@@ -6,7 +6,16 @@
   "version": "1.0",
 
   "permissions": [
-    "tabs", "http://secretlifeofpronouns.com/*"
+    "tabs", "http://secretlifeofpronouns.com/*", "storage"
+  ],
+
+  "options_page": "options.html",
+
+  "content_scripts": [
+    {
+      "matches": ["http://secretlifeofpronouns.com/exercise/synch/feedback.php"],
+      "js": ["jquery.js", "feedback.js"]
+    }
   ],
   
   "browser_action": {

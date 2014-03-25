@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <title>LSM multiple matching page options</title>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+     <style>
+      #status {
+        transition: color 0.5s ease;
+        color: transparent;
+      }
+      #status.saved {
+        color: black;
+      }
+      li {
+        border-bottom: 1px solid black;
+      }
+     </style>
+  </head>
+  <body>
+    <ul>
+    </ul>
+    <br/>
+    <a href="#" id="addPerson">ADD PERSON SAMPLE</a>
+    <br/>
+    <button id="save">Save</button><span id="status">Saved!</span>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="options.js"></script>
+  </body>
+</html>
