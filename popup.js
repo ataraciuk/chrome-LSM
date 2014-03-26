@@ -3,6 +3,10 @@ var age = null;
 var myText = null;
 var samples = null;
 var results = $('#results');
+var bars = results.children('#bars');
+var legends = results.children('#legends');
+var lastAppended = 1;
+var nextTab = 0;
 $(function(){
 	$('button').click(function(){
 		age = $('#age').val();
@@ -27,19 +31,20 @@ function onTabCreated(tab) {
 		for(i = 0, l = samples.length; i < l; i++) {
 			console.log(tabs[i].id);
 			samples[i].tabId = tabs[i].id;
-			chrome.tabs.executeScript(tabs[i].id, {file: 'input.js'});
 		}
+		chrome.tabs.executeScript(tabs[nextTab].id, {file: 'input.js'});
 	}
 }
 
 chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
     if (request.greeting === "injected") {
-    	sendResponse({other: searchSample(sender.tab.id), age: age, myText: myText});
+    	sendResponse({other: searchSample(sender.tab.id), age: age, myText: myText, delay: searchIndex(sender.tab.id)+1});
     } else if(typeof request.lsm === 'number') {
     	var sample = searchSample(sender.tab.id);
     	sample.lsm = request.lsm;
     	addSampleToGraph(sample);
     	chrome.tabs.remove(sender.tab.id);
+    	if(++nextTab < tabs.length) setTimeout(function(){chrome.tabs.executeScript(tabs[nextTab].id, {file: 'input.js'});},100);
     }
 });
 
@@ -50,7 +55,18 @@ function searchSample(tabId) {
 	}
 }
 
+function searchIndex(tabId) {
+	for (i = 0, l = samples.length; i < l; i++) {
+		var sample = samples[i];
+		if (sample.tabId === tabId) return i;
+	}
+}
+
 function addSampleToGraph(sample) {
 	results.show();
-	results.append('<div class=resultItem title="'+sample.name+'"><div class="bar"><div style="height:'+Math.round(sample.lsm*100)+'%;"></div></div>'+sample.lsm+'</div>');
+	var height = Math.round(sample.lsm*100);
+	bars.append('<div class=resultItem title="'+sample.name+'"><div class="bar"><div class="filledBar" style="height:'+height+'%;"></div><div class="barAmount" style="bottom:'+(height)+'%;">'+sample.lsm+'</div></div>'+lastAppended+'</div>');
+	legends.append('<div>'+lastAppended+': '+sample.name+'</div>');
+	lastAppended++;
+	results.css('min-width',(lastAppended*48)+'px');
 }

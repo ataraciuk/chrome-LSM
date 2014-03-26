@@ -11,5 +11,86 @@ chrome.runtime.sendMessage({greeting: "injected"}, function(response) {
 	$('select[name="sample"]').val('general writing samples');
 	$('select[name="writing"]').val('strangers');
 	$('select[name="synch"]').val('completely unconnected');
-	$('input[type="Submit"').click();
+	//setTimeout(clickBtn,response.delay*200);
+	clickBtn();
 });
+
+function clickBtn(){
+	verify();
+}
+
+function verify() {
+
+	var valid = true;
+
+	// Each field with class="required" using included jquery
+
+	$('.required').each(function(key, val) {
+
+		var je = $(val);
+
+		valid = valid && (je.val() != '');
+
+	});
+
+	if (!valid) {
+
+		alert('Please fill in all required fields');
+
+	}
+	if (valid) {
+		doMixUp($('#pageform'), ['left','right']);
+		return false;
+	}
+
+	return valid;
+
+} 
+
+function doMixUp(jForm, array_ids) {
+	var je = $('<div>Anonymizing</div>');
+	var pos = $('#'+array_ids[0]).offset();
+	je.css({
+		'display': 'none',
+		'position': 'absolute',
+		'top': (pos.top + 200)+'px',
+		'left': (pos.left + 100)+'px',
+		'backgroundColor': 'white',
+		'width': '300px',
+		'padding': '20px',
+		'border': '1px solid black'
+	});
+	$('body').append(je);
+	je.fadeIn('slow', function() {
+		mixUp(array_ids);
+		je.fadeOut('slow', function() {
+			mixUp(array_ids);
+			je.fadeIn('slow', function() {
+				mixUp(array_ids);
+				jForm.submit();
+			});
+		});
+	});
+}
+
+function mixUp(array_ids) {
+	$.each(array_ids, function (key, val) {
+		var je = $('#'+val);
+		if (!je) {
+			return false;
+		}
+		var str = je.val();
+		str = moveWords(str);
+		je.val(str);
+	});
+}
+
+function moveWords(str) {
+	var sp = str.split(' ');
+	function randOrd() {
+		return (Math.round(Math.random()) - 0.5);
+	}
+	sp.sort( randOrd );
+	var newstr = sp.join(' ');
+	return newstr;
+}

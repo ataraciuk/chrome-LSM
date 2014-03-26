@@ -5,16 +5,24 @@
 .bar {
 	position: relative;
 	height: 200px;
-	width: 30px;
+	width: 40px;
 	border:1px solid black;
 }
-.bar > div {
+.filledBar {
 	position: absolute;
 	bottom: 0px;
 	left:0px;
-	background-color: green;
+	background-color: #00aa00;
 	width: 100%;
+}
+.barAmount {
+	position: absolute;
+	margin-left: 2px;
 }
 #results{
 	display: none;
+}
+#legends {
+	clear: both;
+	margin-top: 250px;
 }
